@@ -1,7 +1,7 @@
+import org.jsoup.Jsoup
 
-import org.jsoup.Jsoup.parse
-
-const val HTML_CONTENT = """<!DOCTYPE html>
+object Main {
+    const val HTML_CONTENT = """<!DOCTYPE html>
 <html>
 <body>
 
@@ -11,6 +11,12 @@ const val HTML_CONTENT = """<!DOCTYPE html>
 </body>
 </html>"""
 
-fun parse(): String? {
-    return parse(HTML_CONTENT).wholeText().trim()
+    fun parse(): String? {
+        return Jsoup.parse(HTML_CONTENT).wholeText().trim()
+    }
+
+    fun readFile() : String =
+   Main::class.java.getResource("htmlContent.html")
+       .readText(Charsets.UTF_8)
+
 }
