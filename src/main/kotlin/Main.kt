@@ -1,6 +1,10 @@
-import org.jsoup.Jsoup
+
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.jsoup.Jsoup.parse
 
 object Main {
+    val mapper = jacksonObjectMapper()
+
     const val HTML_CONTENT = """<!DOCTYPE html>
 <html>
 <body>
@@ -12,7 +16,11 @@ object Main {
 </html>"""
 
     fun parse(): String? {
-        return Jsoup.parse(HTML_CONTENT).wholeText().trim()
+        // Read file
+        // Parse it (Get a sample title and a content) using jsoup
+        // Set the values in the data class
+        // write the json
+        return parse(HTML_CONTENT).wholeText().trim()
     }
 
     fun readFile() : String =
