@@ -1,26 +1,22 @@
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import domain.SideEffects
 import org.jsoup.Jsoup.parse
 
 object Main {
-    val mapper = jacksonObjectMapper()
+    private val mapper = jacksonObjectMapper()
 
-    const val HTML_CONTENT = """<!DOCTYPE html>
-<html>
-<body>
+    fun htmlToSideEffectsJson(): String? {
+        // TODO: rewrite it in a more elegant way
+        val htmlContent = readFile()
+        return mapper.writeValueAsString(htmlToSideEffects(htmlContent))
+    }
 
-<h1 style="text-align:center;">Centered Heading</h1>
-<p style="text-align:center;">Centered paragraph.</p>
-
-</body>
-</html>"""
-
-    fun parse(): String? {
-        // Read file
-        // Parse it (Get a sample title and a content) using jsoup
-        // Set the values in the data class
-        // write the json
-        return parse(HTML_CONTENT).wholeText().trim()
+    private fun htmlToSideEffects(htmlContent: String): SideEffects {
+        // TODO: Same applies to this part
+        val headerElements = parse(htmlContent).getElementsByTag("h1")
+        val pElements = parse(htmlContent).getElementsByTag("p")
+        return SideEffects(headerElements[0].wholeText(), pElements[0].wholeText())
     }
 
     fun readFile() : String =

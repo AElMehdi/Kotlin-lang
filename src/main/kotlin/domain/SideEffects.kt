@@ -1,5 +1,5 @@
 package domain
 
 
-data class SideEffects(var header : String, var content) {
+data class SideEffects(var header : String, var content : String) {
 }
