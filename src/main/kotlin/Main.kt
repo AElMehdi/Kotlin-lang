@@ -6,16 +6,20 @@ import org.jsoup.Jsoup.parse
 object Main {
     private val mapper = jacksonObjectMapper()
 
+    private const val H1_TAG = "h1"
+    private const val P_TAG = "p"
+    private const val TABLE_TAG = "table"
+
     fun htmlToSideEffectsJson(): String? {
-        // TODO: rewrite it in a more elegant way
+        // TODO: Rewrite it in an elegant way
         val htmlContent = readFile()
         return mapper.writeValueAsString(htmlToSideEffects(htmlContent))
     }
 
     private fun htmlToSideEffects(htmlContent: String): SideEffects {
         // TODO: Same applies to this part
-        val headerElements = parse(htmlContent).getElementsByTag("h1")
-        val pElements = parse(htmlContent).getElementsByTag("p")
+        val headerElements = parse(htmlContent).getElementsByTag(H1_TAG)
+        val pElements = parse(htmlContent).getElementsByTag(P_TAG)
         return SideEffects(headerElements[0].wholeText(), pElements[0].wholeText())
     }
 
@@ -23,4 +27,9 @@ object Main {
    Main::class.java.getResource("htmlContent.html")
        .readText(Charsets.UTF_8)
 
+    fun getHtmlTable(): String? {
+        val htmlString = readFile()
+        val table = parse(htmlString).getElementsByTag(TABLE_TAG)
+        return table.outerHtml()
+    }
 }

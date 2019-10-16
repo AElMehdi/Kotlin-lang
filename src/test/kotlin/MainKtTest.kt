@@ -1,3 +1,4 @@
+import Main.getHtmlTable
 import Main.htmlToSideEffectsJson
 import Main.readFile
 import org.assertj.core.api.Assertions.assertThat
@@ -15,5 +16,10 @@ class MainKtTest {
         val result = htmlToSideEffectsJson()
 
         assertThat(result).isEqualTo("{\"header\":\"My header\",\"content\":\"My content\"}")
+    }
+
+    @Test
+    fun should_get_the_table_content() {
+        assertThat(getHtmlTable()).contains("<table")
     }
 }
