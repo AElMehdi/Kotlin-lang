@@ -1,6 +1,7 @@
-import Main.getHtmlTable
+
 import Main.htmlToSideEffectsJson
 import Main.readFile
+import Main.table
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -20,6 +21,11 @@ class MainKtTest {
 
     @Test
     fun should_get_the_table_content() {
-        assertThat(getHtmlTable()).contains("<table")
+        assertThat(table()).contains("<table")
+    }
+
+    @Test
+    fun should_get_a_table_row() {
+        assertThat(Main.row()).contains("Peu fréquent")
     }
 }

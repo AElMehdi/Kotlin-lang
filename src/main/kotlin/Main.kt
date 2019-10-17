@@ -27,9 +27,14 @@ object Main {
    Main::class.java.getResource("htmlContent.html")
        .readText(Charsets.UTF_8)
 
-    fun getHtmlTable(): String? {
+    fun table(): String? {
         val htmlString = readFile()
         val table = parse(htmlString).getElementsByTag(TABLE_TAG)
         return table.outerHtml()
+    }
+
+    fun row(): String? {
+        val rows = parse(table()).getElementsByTag("tr")
+        return rows[1].outerHtml()
     }
 }
