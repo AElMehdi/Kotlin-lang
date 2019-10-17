@@ -2,6 +2,7 @@
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import domain.SideEffects
 import org.jsoup.Jsoup.parse
+import org.jsoup.nodes.TextNode
 
 object Main {
     private val mapper = jacksonObjectMapper()
@@ -11,16 +12,11 @@ object Main {
     private const val TABLE_TAG = "table"
 
     fun htmlToSideEffectsJson(): String? {
-        // TODO: Rewrite it in an elegant way
-        val htmlContent = readFile()
-        return mapper.writeValueAsString(htmlToSideEffects(htmlContent))
+        return mapper.writeValueAsString(htmlToSideEffects())
     }
 
-    private fun htmlToSideEffects(htmlContent: String): SideEffects {
-        // TODO: Same applies to this part
-        val headerElements = parse(htmlContent).getElementsByTag(H1_TAG)
-        val pElements = parse(htmlContent).getElementsByTag(P_TAG)
-        return SideEffects(headerElements[0].wholeText(), pElements[0].wholeText())
+    private fun htmlToSideEffects(): SideEffects {
+        return SideEffects(title(), sideEffect())
     }
 
     fun readFile() : String =
@@ -33,12 +29,26 @@ object Main {
         return table.outerHtml()
     }
 
-    fun row(): String? {
+    fun row(): String {
         val rows = parse(table()).getElementsByTag("tr")
         return rows[1].outerHtml()
     }
+    private fun column(): String {
+        return (parse(table()).getElementsByTag("tr")[1].select("td")[1].select("br").first()
+            .nextSibling() as TextNode).text()
+    }
 
-    fun title(): String? {
+
+    fun title(): String {
         return parse(row()).getElementsByTag("strong")[0].text()
     }
+
+    fun sideEffect(): String {
+        val sideEffect = (parse(row()).select("br").first().nextSibling() as TextNode).text()
+        val frequency = column()
+
+
+        return "$sideEffect $frequency"
+    }
+
 }
