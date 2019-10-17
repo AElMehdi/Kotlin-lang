@@ -1,8 +1,11 @@
 
 import Main.htmlToSideEffectsJson
 import Main.readFile
+import Main.row
 import Main.table
+import Main.title
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Ignore
 import org.junit.jupiter.api.Test
 
 class MainKtTest {
@@ -26,6 +29,11 @@ class MainKtTest {
 
     @Test
     fun should_get_a_table_row() {
-        assertThat(Main.row()).contains("Peu fréquent")
+    }
+
+    @Test
+    @Ignore
+    fun should_get_title_from_a_row() {
+        assertThat(title()).isEqualTo("Infections et infestations")
     }
 }

@@ -37,4 +37,8 @@ object Main {
         val rows = parse(table()).getElementsByTag("tr")
         return rows[1].outerHtml()
     }
+
+    fun title(): String? {
+        return parse(row()).getElementsByTag("strong")[0].text()
+    }
 }
