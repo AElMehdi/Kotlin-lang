@@ -1,6 +1,7 @@
 
 import Main.htmlToSideEffectsJson
 import Main.readFile
+import Main.rows
 import Main.sideEffect
 import Main.table
 import Main.title
@@ -37,5 +38,11 @@ class MainKtTest {
     fun should_return_side_effect_from_html() {
         assertThat(htmlToSideEffectsJson())
             .isEqualTo("{\"title\":\"Infections et infestations\",\"sideEffect\":\"Nasopharyngite Fréquent\"}")
+    }
+
+    @Test
+    fun should_return_side_effects_rows() {
+        assertThat(rows()).hasSize(12)
+
     }
 }
