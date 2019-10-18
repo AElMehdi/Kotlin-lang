@@ -3,7 +3,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import domain.SideEffects
 import org.jsoup.Jsoup.parse
 import org.jsoup.nodes.TextNode
-import kotlin.text.RegexOption.MULTILINE
 
 object Main {
     private val mapper = jacksonObjectMapper()
@@ -53,14 +52,7 @@ object Main {
     }
 
     fun rows(): List<String> {
-        val rows = mutableListOf<String>()
-
-        val pattern = "(<strong>(?:.|\\s)*?<strong>)".toRegex(MULTILINE)
-
-        pattern.findAll(row())
-            .forEach { matchResult -> rows.add(matchResult.value) }
-
-        return rows
+        return row().split("<strong>")
     }
 
 }

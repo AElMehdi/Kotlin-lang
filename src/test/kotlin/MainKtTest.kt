@@ -21,10 +21,6 @@ class MainKtTest {
     }
 
     @Test
-    fun should_get_a_table_row() {
-    }
-
-    @Test
     fun should_get_title_from_a_row() {
         assertThat(title()).isEqualTo("Infections et infestations")
     }
