@@ -1,27 +1,24 @@
-
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import domain.SideEffect
 import domain.SideEffects
 import org.jsoup.Jsoup.parse
-import org.jsoup.nodes.TextNode
 
 object Main {
     private val mapper = jacksonObjectMapper()
 
-    private const val H1_TAG = "h1"
-    private const val P_TAG = "p"
     private const val TABLE_TAG = "table"
 
-    fun htmlToSideEffectsJson(): String? {
+    fun htmlSideEffectsToJson(): String? {
         return mapper.writeValueAsString(htmlToSideEffects())
     }
 
     private fun htmlToSideEffects(): SideEffects {
-        return SideEffects(title(), sideEffect())
+        return SideEffects(sideEffects = sideEffects())
     }
 
-    fun readFile() : String =
-   Main::class.java.getResource("htmlContent.html")
-       .readText(Charsets.UTF_8)
+    fun readFile(): String =
+        Main::class.java.getResource("htmlContent.html")
+            .readText(Charsets.UTF_8)
 
     fun table(): String? {
         val htmlString = readFile()
@@ -29,30 +26,53 @@ object Main {
         return table.outerHtml()
     }
 
-    fun row(): String {
-        val rows = parse(table()).getElementsByTag("tr")
-        return rows[1].outerHtml()
-    }
-    private fun column(): String {
-        return (parse(table()).getElementsByTag("tr")[1].select("td")[1].select("br").first()
-            .nextSibling() as TextNode).text()
+    private fun row(): Pair<String, String> {
+        val rows = parse(table()).select("tr")
+        return Pair(rows[1].select("td")[0].outerHtml(), rows[1].select("td")[1].outerHtml())
     }
 
-
-    fun title(): String {
-        return parse(row()).getElementsByTag("strong")[0].text()
+    fun header(): String {
+        return parse(row().first).getElementsByTag("strong")[0].text()
     }
 
-    fun sideEffect(): String {
-        val sideEffect = (parse(row()).select("br").first().nextSibling() as TextNode).text()
-        val frequency = column()
+    fun sideEffects(): List<SideEffect> {
+        val result = mutableListOf<SideEffect>()
+        val frequencies = columns().second.toMutableList()
 
+        for (column in columns().first) {
 
-        return "$sideEffect $frequency"
+            val headerAndSideEffects = column.split("</strong>")
+
+            val header = headerAndSideEffects[0]
+
+            val sideEffects = headerAndSideEffects[1].split("<br>")
+                .filter { se -> se.isNotEmpty() }
+                .map { se -> removeTags(se) }
+                .toList().toMutableList()
+
+            for (i in 0 until sideEffects.size) {
+                sideEffects[i] = """${sideEffects[i]} ${frequencies.removeAt(0)}"""
+            }
+
+            result.add(SideEffect(header, sideEffects))
+        }
+
+        return result
     }
 
-    fun rows(): List<String> {
-        return row().split("<strong>").drop(1)
+    private fun removeTags(sideEffect: String): String {
+        return sideEffect.replace(Regex("<.*>"), "")
     }
 
+    private fun columns(): Pair<List<String>, List<String>> {
+        val sideEffects = row().first.split("<strong>").drop(1)
+
+        val frequencies = row().second.split("<br>")
+            .drop(1)
+            .filter { frequency -> frequency.isNotEmpty() }
+            .map { frequency -> removeTags(frequency) }
+            .toList()
+
+        return Pair(sideEffects, frequencies)
+    }
 }

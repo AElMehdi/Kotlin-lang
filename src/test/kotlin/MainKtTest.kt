@@ -1,10 +1,10 @@
 
-import Main.htmlToSideEffectsJson
+import Main.header
+import Main.htmlSideEffectsToJson
 import Main.readFile
-import Main.rows
-import Main.sideEffect
+import Main.sideEffects
 import Main.table
-import Main.title
+import domain.SideEffect
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -22,29 +22,23 @@ class MainKtTest {
 
     @Test
     fun should_get_title_from_a_row() {
-        assertThat(title()).isEqualTo("Infections et infestations")
+        assertThat(header()).isEqualTo("Infections et infestations")
     }
 
     @Test
-    fun should_return_side_effects_from_a_row() {
-        assertThat(sideEffect()).isEqualTo("Nasopharyngite Fréquent")
+    fun should_return_side_effects_json_from_html() {
+        assertThat(htmlSideEffectsToJson())
+            .isEqualTo(MainKtTest::class.java.getResource("sideEffectsJson").readText(Charsets.UTF_8))
     }
 
     @Test
-    fun should_return_side_effect_from_html() {
-        assertThat(htmlToSideEffectsJson())
-            .isEqualTo("{\"title\":\"Infections et infestations\",\"sideEffect\":\"Nasopharyngite Fréquent\"}")
-    }
-
-    @Test
-    fun should_return_side_effects_rows() {
-        assertThat(rows()).hasSize(12)
-    }
-
-    @Test
-    fun should_parse_side_effects_table_to_json() {
-        assertThat(htmlToSideEffectsJson()).isEqualTo("{\"Section\":\"Effets Indésirables\",\"granularity\":\"section\"," +
-                "\"sideEffects\":[{\"header\":\"Infections et infestations\",\"sideEffect\":\"Nasopharyngite Fréquent\"}]}")
-
+    fun should_destructure_row_into_header_and_side_effects() {
+        assertThat(sideEffects())
+            .hasSize(12)
+            .contains(
+                SideEffect("Infections et infestations",
+                    listOf("Nasopharyngite Fréquent", "Rhinite Peu fréquent", "Cystite Peu fréquent")),
+                SideEffect("Troubles généraux et anomalies au site d'administration",
+                    listOf("Sensation de fatigue Peu fréquent", "Asthénie Peu fréquent")))
     }
 }
