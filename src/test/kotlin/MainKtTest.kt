@@ -40,4 +40,11 @@ class MainKtTest {
     fun should_return_side_effects_rows() {
         assertThat(rows()).hasSize(12)
     }
+
+    @Test
+    fun should_parse_side_effects_table_to_json() {
+        assertThat(htmlToSideEffectsJson()).isEqualTo("{\"Section\":\"Effets Indésirables\",\"granularity\":\"section\"," +
+                "\"sideEffects\":[{\"header\":\"Infections et infestations\",\"sideEffect\":\"Nasopharyngite Fréquent\"}]}")
+
+    }
 }
