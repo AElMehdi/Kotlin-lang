@@ -52,7 +52,7 @@ object Main {
     }
 
     fun rows(): List<String> {
-        return row().split("<strong>")
+        return row().split("<strong>").drop(1)
     }
 
 }

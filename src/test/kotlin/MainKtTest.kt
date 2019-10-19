@@ -39,6 +39,5 @@ class MainKtTest {
     @Test
     fun should_return_side_effects_rows() {
         assertThat(rows()).hasSize(12)
-
     }
 }
