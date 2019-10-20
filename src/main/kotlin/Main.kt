@@ -46,9 +46,9 @@ object Main {
             val header = headerAndSideEffects[0]
 
             val sideEffects = headerAndSideEffects[1].split("<br>")
-                .filter { se -> se.isNotEmpty() }
-                .map { se -> removeTags(se) }
-                .toList().toMutableList()
+                .filter(String::isNotEmpty)
+                .map(this::removeTags)
+                .toMutableList()
 
             for (i in 0 until sideEffects.size) {
                 sideEffects[i] = """${sideEffects[i]} ${frequencies.removeAt(0)}"""
@@ -69,8 +69,8 @@ object Main {
 
         val frequencies = row().second.split("<br>")
             .drop(1)
-            .filter { frequency -> frequency.isNotEmpty() }
-            .map { frequency -> removeTags(frequency) }
+            .filter(String::isNotEmpty)
+            .map(this::removeTags)
             .toList()
 
         return Pair(sideEffects, frequencies)
