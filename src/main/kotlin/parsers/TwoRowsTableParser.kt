@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import domain.SideEffect
 import domain.SideEffects
 import org.jsoup.Jsoup.parse
+import org.jsoup.nodes.Element
 import shared.FileReader
 
 object TwoRowsTableParser {
@@ -56,11 +57,17 @@ object TwoRowsTableParser {
     private fun sideEffectsAndFrequenciesFromRow(): Pair<String, String> {
         val contentWithoutTableHeader = parse(table()).select("tr")[1]
 
-        val sideEffectsFomColumn = contentWithoutTableHeader.select("td")[0].outerHtml()
-        val frequenciesFromColumn = contentWithoutTableHeader.select("td")[1].outerHtml()
+        val sideEffectsFomColumn = sideEffectsColumn(contentWithoutTableHeader)
+        val frequenciesFromColumn = frequenciesFromColumn(contentWithoutTableHeader)
 
         return Pair(sideEffectsFomColumn, frequenciesFromColumn)
     }
+
+    private fun frequenciesFromColumn(contentWithoutTableHeader: Element) =
+        contentWithoutTableHeader.select("td")[1].outerHtml()
+
+    private fun sideEffectsColumn(contentWithoutTableHeader: Element) =
+        contentWithoutTableHeader.select("td")[0].outerHtml()
 
     fun table(): String {
         val htmlString = FileReader.readFile("../twoRowsColumnsTable.html")
