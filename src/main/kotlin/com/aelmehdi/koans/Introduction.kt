@@ -6,6 +6,7 @@ fun main(args: Array<String>) {
     println(start())
     println(joinOptions(mutableListOf("option 1", "option 2", "option 3", "option 4")))
     println(containsEven(mutableListOf(3, 1, 5, 7)))
+    println(getPattern())
 }
 
 
@@ -22,3 +23,8 @@ fun joinOptions(options: Collection<String>): String = joinToString(prefix = "["
 
 // Lambdas
 fun containsEven(numbers: Collection<Int>) = numbers.any { it % 2 == 0 }
+
+// Strings
+const val month = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
+
+fun getPattern(): String = """\d{2} $month \d{4}"""
