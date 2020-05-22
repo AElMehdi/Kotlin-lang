@@ -7,6 +7,7 @@ fun main(args: Array<String>) {
     println(joinOptions(mutableListOf("option 1", "option 2", "option 3", "option 4")))
     println(containsEven(mutableListOf(3, 1, 5, 7)))
     println(getPattern())
+    println(getPeople())
 }
 
 
@@ -28,3 +29,11 @@ fun containsEven(numbers: Collection<Int>) = numbers.any { it % 2 == 0 }
 const val month = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
 
 fun getPattern(): String = """\d{2} $month \d{4}"""
+
+// Data classes
+
+data class Person(var name: String, var age :Int)
+
+fun getPeople(): List<Person> {
+    return listOf(Person("Alice", 29), Person("Bob", 31))
+}
