@@ -31,9 +31,24 @@ const val month = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
 fun getPattern(): String = """\d{2} $month \d{4}"""
 
 // Data classes
-
-data class Person(var name: String, var age :Int)
+data class Person(var name: String, var age: Int)
 
 fun getPeople(): List<Person> {
     return listOf(Person("Alice", 29), Person("Bob", 31))
+}
+
+// Nullable types
+fun sendMessageToClient(client: Client?, message: String?, mailer: Mailer) {
+    val email = client?.PersonalInfo?.email
+    if (email != null && message != null) {
+        mailer.sendMessage(email, message)
+    }
+}
+
+class Client(val PersonalInfo: PersonalInfo?)
+
+class PersonalInfo(val email: String?)
+
+interface Mailer {
+    fun sendMessage(email: String, message: String)
 }
