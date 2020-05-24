@@ -8,6 +8,8 @@ fun main(args: Array<String>) {
     println(containsEven(mutableListOf(3, 1, 5, 7)))
     println(getPattern())
     println(getPeople())
+    println(eval(Num(15)))
+    println(eval(Sum(Num(10), Num(10))))
 }
 
 
@@ -52,3 +54,17 @@ class PersonalInfo(val email: String?)
 interface Mailer {
     fun sendMessage(email: String, message: String)
 }
+
+// Smart casts
+fun eval(expr: Expr): Int =
+    when (expr) {
+        is Num -> expr.value
+        is Sum -> eval(expr.left) + eval(expr.right)
+        else -> throw IllegalArgumentException("Unknown Expression")
+    }
+
+
+interface Expr
+
+class Num(val value: Int) : Expr
+class Sum(val left: Expr, val right: Expr) : Expr
