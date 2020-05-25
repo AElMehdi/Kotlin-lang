@@ -1,5 +1,7 @@
 package com.aelmehdi.koans
 
+import java.util.*
+
 class Introduction
 
 fun main(args: Array<String>) {
@@ -12,6 +14,7 @@ fun main(args: Array<String>) {
     println(eval(Sum(Num(10), Num(10))))
     println(18.r())
     println(Pair(20, 15).r())
+    println(getList()) // 9 7 1
 }
 
 
@@ -78,3 +81,16 @@ fun Pair<Int, Int>.r(): RationalNumber = RationalNumber(first, second)
 
 
 data class RationalNumber(val numerator: Int, val denominator: Int)
+
+// Object expressions
+
+fun getList(): List<Int> {
+    val myList = mutableListOf<Int>(7, 1, 9)
+
+    Collections.sort(myList, object : Comparator<Int> {
+        override fun compare(x: Int, y: Int): Int {
+            return y - x
+        }
+    } )
+    return myList
+}
