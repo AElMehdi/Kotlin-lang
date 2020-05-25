@@ -10,6 +10,8 @@ fun main(args: Array<String>) {
     println(getPeople())
     println(eval(Num(15)))
     println(eval(Sum(Num(10), Num(10))))
+    println(18.r())
+    println(Pair(20, 15).r())
 }
 
 
@@ -68,3 +70,11 @@ interface Expr
 
 class Num(val value: Int) : Expr
 class Sum(val left: Expr, val right: Expr) : Expr
+
+// Extension functions
+fun Int.r(): RationalNumber = RationalNumber(this, 1)
+
+fun Pair<Int, Int>.r(): RationalNumber = RationalNumber(first, second)
+
+
+data class RationalNumber(val numerator: Int, val denominator: Int)
