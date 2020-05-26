@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
     println(18.r())
     println(Pair(20, 15).r())
     println(getList()) // 9 7 1
+    println(getListSAM()) // 9 7 1
 }
 
 
@@ -92,5 +93,15 @@ fun getList(): List<Int> {
             return y - x
         }
     } )
+    return myList
+}
+
+// SAM Conversions
+
+fun getListSAM(): List<Int> {
+    val myList = mutableListOf<Int>(7, 1, 9)
+
+    Collections.sort(myList) { x, y -> y - x }
+
     return myList
 }
