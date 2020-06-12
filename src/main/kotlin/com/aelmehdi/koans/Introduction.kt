@@ -16,9 +16,6 @@ fun main(args: Array<String>) {
     println(Pair(20, 15).r())
     println(getList()) // 9 7 1
     println(getListSAM()) // 9 7 1
-    println(compare(
-        MyDate(2015, 10, 20),
-        MyDate(2016, 5, 7))) // false
 }
 
 
@@ -108,18 +105,4 @@ fun getListSAM(): List<Int> {
 
     return myList
 }
-
-
-// Extension functions on collections
-
-data class MyDate(val year: Int, val month: Int, val day: Int) : Comparable<MyDate> {
-    override fun compareTo(other: MyDate): Int = when {
-        year != other.year -> year - other.year
-        month != other.month -> month - other.month
-        else -> day - other.day
-    }
-
-}
-
-fun compare(date1: MyDate, date2: MyDate) = date2 < date1
 
