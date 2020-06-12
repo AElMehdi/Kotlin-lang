@@ -4,7 +4,7 @@ import java.util.*
 
 class Introduction
 
-fun main(args: Array<String>) {
+fun main() {
     println(start())
     println(joinOptions(mutableListOf("option 1", "option 2", "option 3", "option 4")))
     println(containsEven(mutableListOf(3, 1, 5, 7)))

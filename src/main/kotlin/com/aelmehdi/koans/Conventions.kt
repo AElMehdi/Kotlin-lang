@@ -2,7 +2,7 @@ package com.aelmehdi.koans
 
 class Conventions
 
-fun main(args: Array<String>) {
+fun main() {
     val startDate = MyDate(2014, 10, 20)
     val endDate = MyDate(2016, 5, 7)
     println(compare(startDate, endDate)) // true
