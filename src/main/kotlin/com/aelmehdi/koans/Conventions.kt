@@ -19,15 +19,24 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
     }
 
     operator fun rangeTo(other: MyDate) = DateRange(this, other)
+
+    fun nextDay() {
+
+    }
 }
 
 fun compare(date1: MyDate, date2: MyDate) = date1 < date2
 
 
-class DateRange(val start: MyDate, val endInclusive: MyDate) {
+class DateRange(val start: MyDate, val endInclusive: MyDate) : Iterable<MyDate> {
     operator fun contains(item: MyDate): Boolean {
         return start <= item && item <= endInclusive
     }
+
+    override fun iterator(): Iterator<MyDate> {
+        MyDate.nextDay()
+    }
+
 }
 
 fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
