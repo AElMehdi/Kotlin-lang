@@ -17,6 +17,8 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
         month != other.month -> month - other.month
         else -> dayOfMonth - other.dayOfMonth
     }
+
+    operator fun rangeTo(other: MyDate) = DateRange(this, other)
 }
 
 fun compare(date1: MyDate, date2: MyDate) = date1 < date2
@@ -29,5 +31,6 @@ class DateRange(val start: MyDate, val endInclusive: MyDate) {
 }
 
 fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
-    return date in DateRange(first, last)
+//    return date in DateRange(first, last)
+    return date in first..last
 }
