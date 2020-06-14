@@ -19,9 +19,8 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
     }
 
     operator fun rangeTo(other: MyDate) = DateRange(this, other)
-
-    fun nextDay() {
-
+    fun nextDay(): MyDate {
+        TODO("Not yet implemented")
     }
 }
 
@@ -33,8 +32,19 @@ class DateRange(val start: MyDate, val endInclusive: MyDate) : Iterable<MyDate> 
         return start <= item && item <= endInclusive
     }
 
-    override fun iterator(): Iterator<MyDate> {
-        MyDate.nextDay()
+    override fun iterator(): Iterator<MyDate> = DateIterator(this)
+
+}
+
+class DateIterator(val dateRange: DateRange) : Iterator<MyDate> {
+    private var current: MyDate = dateRange.start
+
+    override fun hasNext(): Boolean = current <= dateRange.endInclusive
+
+    override fun next(): MyDate {
+        val result = current
+        current = current.nextDay()
+        return result
     }
 
 }
