@@ -12,6 +12,7 @@ enum class TimeInterval {
     WEEK,
     YEAR
 }
+
 fun addTimeIntervals(timeInterval: TimeInterval, number: Int): MyDate {
     val c = Calendar.getInstance()
 //    c.set(MyDate.year, MyDate.month, MyDate.dayOfMonth)

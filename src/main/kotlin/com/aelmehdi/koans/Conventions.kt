@@ -1,5 +1,7 @@
 package com.aelmehdi.koans
 
+import com.aelmehdi.koans.TimeInterval.*
+
 class Conventions
 
 fun main() {
@@ -8,6 +10,11 @@ fun main() {
     println(compare(startDate, endDate)) // true
 
     print(checkInRange(MyDate(2015, 7, 2), startDate, endDate))
+
+    // Operators overloading
+    task1(MyDate(2017, 10, 5))
+
+    task2(MyDate(2017, 10, 5))
 }
 
 data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate> {
@@ -49,4 +56,22 @@ class DateIterator(val dateRange: DateRange) : Iterator<MyDate> {
 fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
 //    return date in DateRange(first, last)
     return date in first..last
+}
+
+
+// Operators overloading
+operator fun MyDate.plus(timeInterval: TimeInterval): MyDate = addTimeIntervals(timeInterval, 1)
+
+class RepeatedTimeInterval(val timeInterval: TimeInterval, val number: Int)
+
+operator fun TimeInterval.times(number: Int) = RepeatedTimeInterval(this, number)
+
+operator fun MyDate.plus(timeIntervals: RepeatedTimeInterval) = addTimeIntervals(timeIntervals.timeInterval, timeIntervals.number)
+
+fun task1(today: MyDate): MyDate {
+    return today + YEAR + WEEK
+}
+
+fun task2(today: MyDate): MyDate {
+    return today + YEAR * 2 + WEEK * 3 + DAY * 5
 }
